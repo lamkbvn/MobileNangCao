@@ -64,13 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        IntentClassifier classifier = new IntentClassifier(this);
         commandHandler = new CommandHandler(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-                commandHandler.handleCommand(text);
+                String intent = classifier.predictIntent(text);
+                //textToSpeech.speak(intent, TextToSpeech.QUEUE_FLUSH, null, null);
+                commandHandler.handleCommand(intent);
             }
         });
 
@@ -93,12 +95,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            IntentClassifier classifier = new IntentClassifier(this);
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
                 editText.setText(spokenText);
-
-                commandHandler.handleCommand(spokenText);
+                String intent = classifier.predictIntent(spokenText);
+                commandHandler.handleCommand(intent);
             }
         }
     }
