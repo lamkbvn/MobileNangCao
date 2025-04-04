@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton speechButton;
     private SpeechRecognizer speechRecognizer;
     private TextToSpeech textToSpeech;
+    private CommandHandler commandHandler;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -63,12 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        commandHandler = new CommandHandler(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                textToSpeech.speak(text +  "He he he he he", TextToSpeech.QUEUE_FLUSH, null, null);
+                textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+                commandHandler.handleCommand(text);
             }
         });
 
@@ -93,7 +95,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
-                editText.setText(result.get(0));
+                String spokenText = result.get(0);
+                editText.setText(spokenText);
+
+                commandHandler.handleCommand(spokenText);
             }
         }
     }

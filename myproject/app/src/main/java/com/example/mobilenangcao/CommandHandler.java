@@ -1,5 +1,7 @@
 package com.example.mobilenangcao;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
@@ -9,6 +11,9 @@ import android.speech.tts.TextToSpeech;
 import android.content.Context;
 import android.media.AudioManager;
 import android.telephony.SmsManager;
+import android.widget.Toast;
+
+import java.util.List;
 import java.util.Locale;
 
 public class CommandHandler {
@@ -32,18 +37,29 @@ public class CommandHandler {
         // 📌 Mở ứng dụng phổ biến
         if (command.contains("mở YouTube")) {
             intent = context.getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         } else if (command.contains("mở Facebook")) {
             intent = context.getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         } else if (command.contains("mở Messenger")) {
             intent = context.getPackageManager().getLaunchIntentForPackage("com.facebook.orca");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         } else if (command.contains("mở Zalo")) {
+            System.out.println("Vô zalo nè");
             intent = context.getPackageManager().getLaunchIntentForPackage("com.zing.zalo");
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PackageManager pm = context.getPackageManager();
+            List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
+            for (ApplicationInfo packageInfo : packages) {
+                System.out.println("Package: " + packageInfo.packageName);
+            }
         } else if (command.contains("mở TikTok")) {
             intent = context.getPackageManager().getLaunchIntentForPackage("com.zhiliaoapp.musically");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         }
 
@@ -172,6 +188,9 @@ public class CommandHandler {
 
         if (intent != null) {
             context.startActivity(intent);
+        } else {
+            // 🔴 Xử lý trường hợp ứng dụng không cài đặt
+            Toast.makeText(context, "Ứng dụng chưa được cài đặt!", Toast.LENGTH_SHORT).show();
         }
     }
 }
