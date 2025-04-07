@@ -1,47 +1,150 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_gravity="bottom">
+    android:gravity="center"
+    android:background="@drawable/gradient_background">
 
-    <!-- Hàng chứa EditText và hai nút -->
+    <!-- Logo và tên ứng dụng ở giữa -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="-20dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_logo"
+            android:clipToOutline="true"
+            android:contentDescription="Logo ứng dụng"
+            android:src="@drawable/logoandroid" />
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VoiceMate"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/appDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trợ lý của riêng bạn"
+            android:textSize="35sp"
+            android:textStyle="normal"
+            android:paddingTop="16dp"
+            android:textColor="#ccc" />
+
+        <ImageView
+            android:id="@+id/appLogosub"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:src="@drawable/aaaa"
+            android:contentDescription="Logo ứng dụng"
+            android:clipToOutline="true" />
+    </LinearLayout>
+
+    <!-- Khung nhập văn bản và nút gửi, ban đầu ẩn -->
+    <LinearLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập nội dung"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="240dp"
+            android:inputType="text"
+            android:imeOptions="actionSend"
+            android:textColor="#000"
+            android:background="@drawable/bg_button_border"/>
+    </LinearLayout>
+
+    <!-- Khung nhập và các nút bên dưới -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/rounded_edittext"
-        android:padding="8dp">
-
-        <!-- Ô nhập văn bản -->
-        <EditText
-            android:id="@+id/editText"
+        android:gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="16dp">
+        <!-- Nút bàn phím -->
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Nhập văn bản"
-            android:textSize="16sp"
-            android:background="@android:color/transparent"
+            android:layout_weight="0.5"
+            android:padding="4dp">
+
+            <ImageButton
+                android:id="@+id/keyboardButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+            android:src="@drawable/keyboard"
+            android:background="@drawable/bg_button_border"
+            android:contentDescription="Nhập bằng bàn phím"
+            android:scaleType="centerInside"
             android:padding="12dp" />
+        </FrameLayout>
 
-        <!-- Nút nói -->
-        <ImageButton
-            android:id="@+id/speechButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerInside"
-            android:src="@android:drawable/ic_btn_speak_now" />
+        <!-- Nút ghi âm (padding trái/phải rộng gấp đôi) -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-        <!-- Nút gửi -->
-        <ImageButton
-            android:id="@+id/button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            <ImageButton
+                android:id="@+id/speechButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+            android:src="@drawable/microphone"
+            android:background="@drawable/bg_button_border"
+            android:contentDescription="Ghi âm"
             android:scaleType="centerInside"
-            android:src="@android:drawable/ic_menu_send" />
+            android:padding="12dp" />
+        </FrameLayout>
+
+        <!-- Nút cài đặt -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="4dp">
+
+            <ImageButton
+                android:id="@+id/settingButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+            android:src="@drawable/setting"
+            android:background="@drawable/bg_button_border"
+            android:contentDescription="Cài đặt"
+            android:scaleType="centerInside"
+            android:padding="12dp" />
+        </FrameLayout>
     </LinearLayout>
+
 
 </LinearLayout>
