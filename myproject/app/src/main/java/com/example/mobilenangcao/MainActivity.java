@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 String text = editText.getText().toString();
                 if (!text.isEmpty()) {
-                    commandHandler.handleCommand(text);
+                    IntentClassifier classifier = new IntentClassifier(this);
+                    String intent = classifier.predictIntent(text);
+                    commandHandler.handleCommand(intent);
                 }
                 editText.setText("");
                 // Ẩn bàn phím và input layout
@@ -145,11 +147,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            IntentClassifier classifier = new IntentClassifier(this);
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
+                String intent = classifier.predictIntent(spokenText);
                 editText.setText(spokenText);
-                commandHandler.handleCommand(spokenText);
+                commandHandler.handleCommand(intent);
             }
         }
     }
